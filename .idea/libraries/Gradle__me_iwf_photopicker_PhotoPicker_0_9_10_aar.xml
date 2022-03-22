@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: me.iwf.photopicker:PhotoPicker:0.9.10@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7dfaa4d2f8c77aefcc89a2e62f1bb598/jetified-PhotoPicker-0.9.10/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7dfaa4d2f8c77aefcc89a2e62f1bb598/jetified-PhotoPicker-0.9.10/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7dfaa4d2f8c77aefcc89a2e62f1bb598/jetified-PhotoPicker-0.9.10/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.iwf.photopicker/PhotoPicker/0.9.10/9b8bd914dc5479b08407004d4386697844d79772/PhotoPicker-0.9.10-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.iwf.photopicker/PhotoPicker/0.9.10/832ab7f2d97bdf4a9b2de87bb9ef03716ee81156/PhotoPicker-0.9.10-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.liulishuo.filedownloader:library:1.5.5@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/71850078f7a8be2ea2c5fc628c69a707/jetified-library-1.5.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/71850078f7a8be2ea2c5fc628c69a707/jetified-library-1.5.5/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/71850078f7a8be2ea2c5fc628c69a707/jetified-library-1.5.5/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liulishuo.filedownloader/library/1.5.5/7620dde9cfabc366eaa4cf75ec5877e5e0d08f41/library-1.5.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.liulishuo.filedownloader/library/1.5.5/2bb93ae6fb91e8f3f5d16f90c8172943c24705e8/library-1.5.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

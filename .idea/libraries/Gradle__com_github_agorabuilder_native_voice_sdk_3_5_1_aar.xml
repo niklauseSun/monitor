@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.agorabuilder:native-voice-sdk:3.5.1@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f8689ce5999002c2256e6a31f258c06a/jetified-native-voice-sdk-3.5.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f8689ce5999002c2256e6a31f258c06a/jetified-native-voice-sdk-3.5.1/jars/libs/agora-rtc-sdk.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f8689ce5999002c2256e6a31f258c06a/jetified-native-voice-sdk-3.5.1/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f8689ce5999002c2256e6a31f258c06a/jetified-native-voice-sdk-3.5.1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.agorabuilder/native-voice-sdk/3.5.1/555da3977e2133397c33d90ef40580f30dac9091/native-voice-sdk-3.5.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.agorabuilder/native-voice-sdk/3.5.1/555da3977e2133397c33d90ef40580f30dac9091/native-voice-sdk-3.5.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
