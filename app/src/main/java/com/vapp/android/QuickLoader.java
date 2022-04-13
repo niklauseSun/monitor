@@ -67,49 +67,6 @@ public class QuickLoader extends FrmBaseActivity implements EasyPermissions.Perm
         super.onCreate(savedInstanceState);
         //隐藏Activity的导航栏
         pageControl.getNbBar().hide();
-
-//        initQuickBean(savedInstanceState);
-        requestBaseUrl();
-
-        setContentView(R.layout.quick_activity);
-
-//        addFragment(R.id.frgContent);
-
-
-        spImageView = (ImageView) findViewById(R.id.imageView);
-        countButton = (Button) findViewById(R.id.countButtonId);
-        SharedPreferences share = getSharedPreferences("data", Context.MODE_PRIVATE);
-        handler = new Handler();
-        mHandler = new Handler();
-
-
-        handlerPostDelayed();
-        handler.postDelayed(runnable, timeCount * 1000);
-        countButton.setVisibility(View.GONE);
-
-        countButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                String jumpUrl = share.getString("baseReqUrl","https://m.mspace.com.sg/mobile/pages/client/home");
-//                nomalInit(jumpUrl);
-                countButton.setVisibility(View.GONE);
-                spImageView.setVisibility(View.GONE);
-                handler.removeCallbacks(runnable);
-                mHandler.removeCallbacks(mRunnable);
-                requestCodeQRCodePermissions();
-            }
-        });
-
-
-        String guideUrl = share.getString("guideImage","");
-        Log.i("guideUrl", guideUrl);
-        if (!guideUrl.isEmpty()) {
-            Glide.with(this).load(guideUrl).placeholder(R.drawable.bg_splash).error(R.drawable.bg_splash).into(spImageView);
-//            Glide.with(this).load(R.drawable.bg_splash).into(spImageView);
-        } else {
-            Glide.with(this).load(R.drawable.bg_splash).into(spImageView);
-        }
-
     }
 
     /**

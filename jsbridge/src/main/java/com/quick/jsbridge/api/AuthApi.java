@@ -1,20 +1,19 @@
 package com.quick.jsbridge.api;
 
+import android.util.Log;
 import android.webkit.WebView;
-
 
 import com.quick.core.util.jsbridge.QuickModulesUtil;
 import com.quick.jsbridge.bridge.Callback;
 import com.quick.jsbridge.bridge.IBridgeImpl;
 import com.quick.jsbridge.bridge.JSBridge;
+import com.quick.jsbridge.notification.WsManager;
 import com.quick.jsbridge.view.IQuickFragment;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -39,6 +38,16 @@ public class AuthApi implements IBridgeImpl {
         Map<String, Object> map = new HashMap<>();
         map.put("access_token", "test-token-quickhybrid");
         callback.applySuccess(map);
+    }
+
+    public static void updateToken(IQuickFragment webLoader, WebView wv, JSONObject param, Callback callback) {
+        String token = param.optString("token");
+        String name = param.optString("name");
+        Log.i("UpdateToken", token);
+        Log.i("UpdateToken", name);
+
+        WsManager.getInstance().init(token, name, webLoader.getPageControl().getContext());
+        callback.applySuccess();
     }
 
     /**

@@ -193,7 +193,7 @@ public class QuickFragment extends FrmBaseFragment implements IQuickFragment {
         mHandler = new Handler();
 
         // 初始化聊天
-        initChat();
+//        initChat();
         // 初始化控件
         initView();
     }

@@ -1,13 +1,22 @@
 package com.vapp.android;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import android.Manifest;
+import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +34,7 @@ import com.quick.jsbridge.view.QuickWebLoader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -53,6 +63,8 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
 
     private Context mContext = this;
 
+    private String ChannleId = "channelId";
+
     public static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
 
@@ -62,17 +74,11 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (BuildConfig.DEBUG) {
-//            nomalInit("http://10.12.254.97:8080/");
-//        } else {
-            requestBaseUrl();
-//        }
-//        testInit();
         pageControl.getNbBar().hide();
+        nomalInit("https://paasapp.traefik.99rongle.com/");
+//        testInit();
     }
-
     private void nomalInit(String url) {
-//        String url = "https://m.mspace.com.sg/mobile/";
         Intent mintent = new Intent(MainActivity.this, QuickWebLoader.class);
 
         QuickBean bean = new QuickBean(url);
@@ -121,7 +127,6 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
         scanButton = findViewById(R.id.scan_button);
         selectImageButton = findViewById(R.id.selectImage);
         showImage = findViewById(R.id.showImage);
-        jumpToShowVr = findViewById(R.id.jumpToShowVr);
 
         inputButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +138,7 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
         defaultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jumpToWebView(mContext, defaultUrl);
+                createNotificationChannel();
             }
         });
 
@@ -173,14 +178,112 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
             }
         });
 
-        jumpToShowVr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
+//        jumpToShowVr.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//            }
+//        });
     }
 
+//    private void showNotification() {
+//        NotificationUtils notificationUtils = new NotificationUtils(this);
+////设置相关参数
+//        NotificationParams notificationParams = new NotificationParams();
+//        NotificationParams params = notificationParams
+//                //让通知左右滑的时候是否可以取消通知
+//                .setOngoing(true)
+//                //设置自定义view
+//                //是否提示一次.true - 如果Notification已经存在状态栏即使在调用notify函数也不会更新
+//                .setOnlyAlertOnce(true)
+//                //设置状态栏的标题
+//                .setTicker("有新消息呢9")
+//                //设置sound
+//                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+//                //设置优先级
+//                .setPriority(Notification.PRIORITY_DEFAULT)
+//                //设置通知时间，默认为系统发出通知的时间，通常不用设置
+//                .setWhen(1)
+//                //自定义震动效果
+//                .setFlags(Notification.FLAG_NO_CLEAR);
+//
+////必须设置的属性，发送通知
+//        notificationUtils.setNotificationParams(params)
+//                .sendNotification(9,"有新消息呢9",
+//                        "这个是标题9", R.mipmap.ic_launcher);
+//    }
 
+    private void createNotificationChannel() {
+
+//        NotificationManager nm = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        String title = "通知标题" ;
+        String content = "通知内容" ;
+
+        Intent fullScreenIntent = new Intent(this, SplashActivity.class);
+        PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
+                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        File soundFile = new File("https://studio.xiaowai.co/blockly/media/skins/bounce/1_goal.mp3");
+        Uri uri = Uri.fromFile(soundFile);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ChannleId)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentText(content)
+//                .setSound(uri)
+                .setVibrate(new long[]{100,200,300,400,500,400,300,200,400})
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setFullScreenIntent(fullScreenPendingIntent, true)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(ChannleId, name, importance);
+            AudioAttributes AUDIO_ATTRIBUTES_DEFAULT = new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .build();
+            channel.setVibrationPattern(new long[]{100,200,300,400,500,400,300,200,400});
+            channel.enableVibration(true);
+            channel.setDescription(description);
+            channel.setBypassDnd(true);//设置是否绕过免打扰模式
+
+            // 点击跳转
+            Intent notifyIntent = new Intent(this, QuickWebLoader.class);
+            // Set the Activity to start in a new, empty task
+
+            QuickBean bean = new QuickBean("https://www.baidu.com?event_id=34A51AC8-7F61-214F-A298-42C0B4B7C689");
+            notifyIntent.putExtra("bean", bean);
+            notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            // Create the PendingIntent
+            PendingIntent notifyPendingIntent = PendingIntent.getActivity(
+                    this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            );
+
+            builder.setContentIntent(notifyPendingIntent);
+
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+//            NotificationCompat notificationManager = NotificationManagerCompat.from(this);
+
+
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // Do something after 5s = 5000ms
+                    notificationManager.notify(0, builder.build());
+                }
+            }, 5000);
+
+        }
+    }
     private void showInputDialog() {
         final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(getContext());
         builder.setTitle("输入网址")
@@ -341,4 +444,5 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
             }
         }).start();
     }
+
 }

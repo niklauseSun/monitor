@@ -60,21 +60,8 @@
         android:id="@+id/showImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/jumpToShowVr" />
-
-    <Button
-        android:id="@+id/jumpToShowVr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="跳转到声网登录"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectImage" />
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="520dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

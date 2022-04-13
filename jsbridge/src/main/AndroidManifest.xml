@@ -2,6 +2,7 @@
     package="quick.com.jsbridge" >
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -9,7 +10,7 @@
 
     <application>
         <provider
-            android:authorities="com.vapp.android.fileprovider"
+            android:authorities="com.sun.monitor.fileprovider"
             android:grantUriPermissions="true"
             android:exported="false"
             android:name="androidx.core.content.FileProvider">

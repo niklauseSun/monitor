@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VApp.iml" filepath="$PROJECT_DIR$/.idea/modules/VApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TakeToSee/VApp.TakeToSee.iml" filepath="$PROJECT_DIR$/.idea/modules/TakeToSee/VApp.TakeToSee.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/VApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/VApp.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/VApp.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/VApp.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.iml" filepath="$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.iml" />

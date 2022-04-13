@@ -32,6 +32,8 @@
     <string name="message_cached">Message cached by server</string>
     <string name="reconnecting">Network reconnecting ...</string>
     <string name="account_offline">Connection lost</string>
+    <string name="channel_name">频道名称</string>
+    <string name="channel_description">频道介绍</string>
 
 </resources>
 

@@ -6,6 +6,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".MainApplication"
         android:networkSecurityConfig="@xml/network_config"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
@@ -19,13 +20,12 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:theme="@style/Theme.AppCompat.Light.NoActionBar" android:name=".QuickLoader">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
+        <activity
+            android:name="com.quick.jsbridge.view.QuickWebLoader"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true">
+        </activity>
 
         <activity android:name=".webView.VWebView"></activity>
 
