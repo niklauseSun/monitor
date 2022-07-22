@@ -4,8 +4,17 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/VApp.iml" filepath="$PROJECT_DIR$/.idea/modules/VApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/VApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/VApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/VApp.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/VApp.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/VApp.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/VApp.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/VApp.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/VApp.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/VApp.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/VApp.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/VApp.core.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/core/VApp.core.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/VApp.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/VApp.core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/VApp.core.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/core/VApp.core.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.iml" filepath="$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.main.iml" filepath="$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/jsbridge/VApp.jsbridge.unitTest.iml" />
     </modules>
   </component>
 </project>

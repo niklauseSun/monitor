@@ -81,6 +81,8 @@ public class WsManager {
     private String userName;
     private String url;
 
+    private String localUrl;
+
     private String lastEventId;
 
     private WsStatus mStatus;
@@ -114,6 +116,7 @@ public class WsManager {
             SharedPreferences sharedPreferences = webLoader.getSharedPreferences("ipAddress", Context .MODE_PRIVATE);
             String socket = sharedPreferences.getString("socketIp", DEF_URL);
             url = TextUtils.isEmpty(socket) ? DEF_URL: socket;
+            localUrl = sharedPreferences.getString("localIp", "");
             String desUrl = url + "/?" + "userToken=" + token + "&" + "userName=" + name + "&EIO=3&transport=websocket";
             Log.i("init", desUrl);
             ws = new WebSocketFactory().createSocket(desUrl, CONNECT_TIMEOUT)
@@ -464,7 +467,7 @@ public class WsManager {
                     String eventType = obj.getString("eventType");
                     String showEventInfo = obj.getString("showEventInfo");
 
-                    createNotificationChannel(eventType, showEventInfo, "https://paasapp.traefik.99rongle.com/?" + "event_id=" + eventId);
+                    createNotificationChannel(eventType, showEventInfo, localUrl + "/?event_id=" + eventId);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
