@@ -129,7 +129,11 @@ public class WebloaderControl implements IActivityResult, SegActionCallBack, Dow
             //设置cookie
             QuickUtil.setCookies(wv.getContext(), bean.pageUrl);
             //加载页面
-            wv.loadUrl(bean.pageUrl);
+            if (bean.pageUrl.isEmpty()) {
+                wv.loadUrl("file:///android_asset/web/index.html");
+            } else {
+                wv.loadUrl(bean.pageUrl);
+            }
         }
     }
 

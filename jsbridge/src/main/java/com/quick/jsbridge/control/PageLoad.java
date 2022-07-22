@@ -3,10 +3,13 @@ package com.quick.jsbridge.control;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -215,20 +218,26 @@ public class PageLoad implements ILoadPage {
 
     @Override
     public void onReceivedError(WebView view, String url, int errorCode, String errorDescription) {
-        if (url.endsWith("favicon.ico") && errorCode == 404) {
+
+        if (errorCode == 404 || errorCode == -2) {
             //过滤页面图标无法找到的错误，这个错误在6.0+系统的每个页面都会产生，但实际上移动端不需要设置该图标
             return;
         }
-//        fragment.getProgressBar().setProgress(0);
+
+        if (errorCode == -2) {
+            fragment.getQuickWebView().loadUrl("file:///android_asset/web/index.html");
+            return;
+        }
+//        fragment.getQuickWebView().loadUrl("file:///android_asset/web/index.html");
         fragment.getPageControl().hideLoading();
         //将错误信息回调给前端
         new Callback(String.valueOf(errorCode), fragment.getQuickWebView()).applyNativeError(url, errorDescription);
-        //6.0+ajax请求接口非200也会走这边
-//        view.loadUrl(WebloaderControl.BLANK);
         if (url.equals(fragment.getQuickBean().pageUrl) || url.equals(fragment.getQuickBean().pageUrl + "/")) {
             //如果当前页面报错则
             fragment.getPageControl().getStatusPage().showStatus(StatusControl.STATUS_PAGE_ERROR);
         }
+
+
         cancelTimeKeeper();
     }
 

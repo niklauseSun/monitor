@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import android.Manifest;
-import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -17,6 +16,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -29,14 +30,16 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.quick.core.baseapp.baseactivity.FrmBaseActivity;
 import com.quick.jsbridge.bean.QuickBean;
+import com.quick.jsbridge.view.FloatingService;
 import com.quick.jsbridge.view.QuickWebLoader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -44,10 +47,9 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends FrmBaseActivity implements EasyPermissions.PermissionCallbacks {
+public class MainActivity extends FrmBaseActivity {
 
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
@@ -74,11 +76,28 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageControl.getNbBar().hide();
-        nomalInit("https://paasapp.traefik.99rongle.com/");
-//        testInit();
+
+        if (Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        SharedPreferences sp = getSharedPreferences("ipAddress", MODE_PRIVATE);
+        String localUrl = sp.getString("localIp", "");
+        Log.i("loadUrl", localUrl);
+//        requestCodeQRCodePermissions();
+
+        Boolean isUrl = checkUrl(localUrl, 30 *1000);
+
+        if (isUrl) {
+            nomalInit(localUrl);
+        } else {
+            nomalInit("file:///android_asset/web/index.html");
+        }
+
     }
     private void nomalInit(String url) {
+
         Intent mintent = new Intent(MainActivity.this, QuickWebLoader.class);
 
         QuickBean bean = new QuickBean(url);
@@ -87,17 +106,36 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
         mintent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 
         startActivity(mintent);
-        pageControl.getNbBar().hide();
-
-        requestCodeQRCodePermissions();
         this.finish();
+    }
+
+    public static Boolean checkUrl(String address, int waitMilliSecond) {
+        try {
+            URL url = new URL(address);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setUseCaches(false);
+            connection.setInstanceFollowRedirects(true);
+            connection.setConnectTimeout(waitMilliSecond);
+            connection.setReadTimeout(waitMilliSecond);
+                    try {
+                        connection.connect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            int code = connection.getResponseCode();
+            if ((code >= 100) && (code < 400)) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void compareUrl(String newUrl) {
         SharedPreferences sharedPreferences= getSharedPreferences("data", Context .MODE_PRIVATE);
         String oldUrl = sharedPreferences.getString("url","https://m.mspace.com.sg/mobile/pages/client/home");
-        pageControl.getNbBar().hide();
-
         if (!newUrl.equals(oldUrl)) {
             nomalInit(newUrl);
 
@@ -118,8 +156,6 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
         setContentView(R.layout.activity_main);
 
         requestCodeQRCodePermissions();
-
-        pageControl.getNbBar().hide();
 
         inputButton = findViewById(R.id.inputButton);
         defaultButton = findViewById(R.id.defaultButton);
@@ -184,33 +220,6 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
 //            }
 //        });
     }
-
-//    private void showNotification() {
-//        NotificationUtils notificationUtils = new NotificationUtils(this);
-////设置相关参数
-//        NotificationParams notificationParams = new NotificationParams();
-//        NotificationParams params = notificationParams
-//                //让通知左右滑的时候是否可以取消通知
-//                .setOngoing(true)
-//                //设置自定义view
-//                //是否提示一次.true - 如果Notification已经存在状态栏即使在调用notify函数也不会更新
-//                .setOnlyAlertOnce(true)
-//                //设置状态栏的标题
-//                .setTicker("有新消息呢9")
-//                //设置sound
-//                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-//                //设置优先级
-//                .setPriority(Notification.PRIORITY_DEFAULT)
-//                //设置通知时间，默认为系统发出通知的时间，通常不用设置
-//                .setWhen(1)
-//                //自定义震动效果
-//                .setFlags(Notification.FLAG_NO_CLEAR);
-//
-////必须设置的属性，发送通知
-//        notificationUtils.setNotificationParams(params)
-//                .sendNotification(9,"有新消息呢9",
-//                        "这个是标题9", R.mipmap.ic_launcher);
-//    }
 
     private void createNotificationChannel() {
 
@@ -366,17 +375,8 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-    }
-
-    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
     private void requestCodeQRCodePermissions() {
-        String [] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String [] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SYSTEM_ALERT_WINDOW};
         if (!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
         }
@@ -395,6 +395,10 @@ public class MainActivity extends FrmBaseActivity implements EasyPermissions.Per
                 showImage.setImageURI(uri);
             }
         }
+
+//        if (requestCode == REQUEST_CODE_QRCODE_PERMISSIONS) {
+//            floatWindow();
+//        }
     }
 
     private void requestBaseUrl() {

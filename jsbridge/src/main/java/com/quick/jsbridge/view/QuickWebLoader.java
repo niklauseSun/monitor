@@ -1,16 +1,22 @@
 package com.quick.jsbridge.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.quick.core.baseapp.baseactivity.FrmBaseActivity;
 import com.quick.jsbridge.bean.QuickBean;
@@ -18,6 +24,9 @@ import com.quick.jsbridge.control.AutoCallbackDefined;
 import com.quick.jsbridge.control.WebloaderControl;
 
 import java.util.Date;
+import java.util.List;
+
+import pub.devrel.easypermissions.EasyPermissions;
 import quick.com.jsbridge.R;
 
 
@@ -25,7 +34,9 @@ import quick.com.jsbridge.R;
  * Created by dailichun on 2017/12/7.
  * 如果需要自定义quick容器请继承QuickWebLoader，在布局文件中必须定义QuickFragment的容器FrameLayout控件
  */
-public class QuickWebLoader extends FrmBaseActivity {
+public class QuickWebLoader extends FrmBaseActivity implements EasyPermissions.PermissionCallbacks {
+
+    private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
 
     public QuickFragment fragment;
 
@@ -38,16 +49,13 @@ public class QuickWebLoader extends FrmBaseActivity {
 
     private ImageView spImageView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //隐藏Activity的导航栏
-        pageControl.getNbBar().hide();
-
         initQuickBean(savedInstanceState);
         setLayout(R.layout.quick_activity);
         addFragment(R.id.frgContent);
+        requestCodeQRCodePermissions();
     }
 
     /**
@@ -67,6 +75,7 @@ public class QuickWebLoader extends FrmBaseActivity {
             finish();
             return;
         }
+//        floatWindow();
     }
 
     /**
@@ -79,7 +88,6 @@ public class QuickWebLoader extends FrmBaseActivity {
         fragment = QuickFragment.newInstance(bean);
         getFragmentManager().beginTransaction().add(containerViewId, fragment).commit();
     }
-
 
     @Override
     protected void onDestroy() {
@@ -145,8 +153,17 @@ public class QuickWebLoader extends FrmBaseActivity {
         context.startActivity(intent);
     }
 
+
+
     public static void go(Context context, String url) {
         go(context, new QuickBean(url));
+    }
+
+    private void requestCodeQRCodePermissions() {
+        String [] perms = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
+        }
     }
 
     private void initBean(String baseUrl) {
@@ -156,6 +173,33 @@ public class QuickWebLoader extends FrmBaseActivity {
         addFragment(R.id.frgContent);
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
 
+    }
 
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_QRCODE_PERMISSIONS) {
+//            floatWindow();
+        }
+    }
+
+    public void floatWindow() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+//                Toast.makeText(this, "当前无权限 canDrawOverlays", Toast.LENGTH_SHORT).show();
+                startActivityForResult(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())), REQUEST_CODE_QRCODE_PERMISSIONS);
+            } else {
+//                Log.i("fff"," hhh");
+            }
+        }
+    }
 }

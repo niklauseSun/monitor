@@ -27,9 +27,13 @@
             android:excludeFromRecents="true">
         </activity>
 
+        <activity android:name="com.quick.jsbridge.view.UpdateIP"></activity>
+
         <activity android:name=".webView.VWebView"></activity>
 
         <activity android:name=".activitys.ScanView"></activity>
+
+        <service android:name="com.quick.jsbridge.view.FloatingService"></service>
 
     </application>
 
@@ -50,4 +54,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 </manifest>

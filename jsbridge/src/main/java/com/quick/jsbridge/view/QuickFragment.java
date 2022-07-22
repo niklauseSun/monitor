@@ -20,6 +20,7 @@ import com.quick.core.ui.app.IPageControl;
 import com.quick.core.util.common.JsonUtil;
 import com.quick.jsbridge.bean.QuickBean;
 import com.quick.jsbridge.control.AutoCallbackDefined;
+import com.quick.jsbridge.control.PageLoad;
 import com.quick.jsbridge.control.WebloaderControl;
 import com.quick.jsbridge.takeToSee.AGChatManager;
 import com.quick.jsbridge.takeToSee.AgApplication;
@@ -191,7 +192,6 @@ public class QuickFragment extends FrmBaseFragment implements IQuickFragment {
         bean = (QuickBean) getArguments().getSerializable("bean");
 
         mHandler = new Handler();
-
         // 初始化聊天
 //        initChat();
         // 初始化控件
@@ -299,10 +299,6 @@ public class QuickFragment extends FrmBaseFragment implements IQuickFragment {
         return bean;
     }
 
-//    @Override
-//    public ProgressBar getProgressBar() {
-//        return pb;
-//    }
 
     @Override
     public QuickFragment getQuickFragment() {
@@ -409,6 +405,7 @@ public class QuickFragment extends FrmBaseFragment implements IQuickFragment {
         object.put("keyword", keyWord);
         control.autoCallbackEvent.onSearch(object);
     }
+
 
     /**
      * RTM Event listener

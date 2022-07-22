@@ -75,8 +75,7 @@ public class WsManager {
      */
     private static final int FRAME_QUEUE_SIZE = 5;
     private static final int CONNECT_TIMEOUT = 5000;
-    private static final String DEF_TEST_URL = "wss://paasapp.traefik.99rongle.com/socket.io";
-    private static final String DEF_RELEASE_URL = "正式服地址";
+    private static final String DEF_TEST_URL = "ws://ddns.99rongle.com:7780";
     private static final String DEF_URL = DEF_TEST_URL;
     private String userToken;
     private String userName;
@@ -109,8 +108,12 @@ public class WsManager {
         userName = name;
         webLoader = context;
         try {
-            String configUrl = "";
-            url = TextUtils.isEmpty(configUrl) ? DEF_URL: configUrl;
+//            String configUrl = "";
+//            SharedPreferences.Editor editor = getSharedPreferences("ipAddress", MODE_PRIVATE).edit();
+//            SharedPreferences sp = SharedPreferences();
+            SharedPreferences sharedPreferences = webLoader.getSharedPreferences("ipAddress", Context .MODE_PRIVATE);
+            String socket = sharedPreferences.getString("socketIp", DEF_URL);
+            url = TextUtils.isEmpty(socket) ? DEF_URL: socket;
             String desUrl = url + "/?" + "userToken=" + token + "&" + "userName=" + name + "&EIO=3&transport=websocket";
             Log.i("init", desUrl);
             ws = new WebSocketFactory().createSocket(desUrl, CONNECT_TIMEOUT)

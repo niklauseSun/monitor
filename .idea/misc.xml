@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="jsbridge/src/main/res/drawable/quick_progress_bar_states.xml" value="0.20989583333333334" />
+        <entry key="jsbridge/src/main/res/layout/file_chose_item.xml" value="0.19375" />
         <entry key="jsbridge/src/main/res/layout/quick_activity.xml" value="0.1140625" />
         <entry key="jsbridge/src/main/res/layout/quick_fragment.xml" value="0.2078125" />
+        <entry key="jsbridge/src/main/res/layout/update_ip_view.xml" value="0.33498106222806523" />
       </map>
     </option>
   </component>

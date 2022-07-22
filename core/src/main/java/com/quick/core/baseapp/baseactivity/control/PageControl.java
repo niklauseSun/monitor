@@ -135,7 +135,7 @@ public class PageControl implements IPageControl {
         rootLayout = (LinearLayout) findViewById(R.id.root_layout);
 
         //初始化导航栏
-        initNbBar();
+//        initNbBar();
 
         //初始化正文布局
         baseContent = (FrameLayout) findViewById(R.id.baseContent);

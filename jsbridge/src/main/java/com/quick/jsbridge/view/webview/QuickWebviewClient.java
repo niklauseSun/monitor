@@ -166,7 +166,6 @@ public class QuickWebviewClient extends WebViewClient {
         super.onPageFinished(view, url);
         loadPage.onPageFinished(view, url);
     }
-
     /**
      * 页面报错
      * android6.0+支持
@@ -179,6 +178,7 @@ public class QuickWebviewClient extends WebViewClient {
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
         super.onReceivedError(view, request, error);
+        Log.i("loadError", error.getDescription().toString());
         loadPage.onReceivedError(view, request.getUrl().toString(), error.getErrorCode(), error.getDescription().toString());
     }
 
@@ -211,18 +211,6 @@ public class QuickWebviewClient extends WebViewClient {
         super.onReceivedHttpError(view, request, errorResponse);
         loadPage.onReceivedError(view, request.getUrl().toString(), errorResponse.getStatusCode(), errorResponse.getReasonPhrase());
     }
-
-    /**
-     * 加载SSL证书异常，一般在请求https页面时捕获
-     *
-     * @param view
-     * @param handler
-     * @param error
-     */
-//    @Override
-//    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//        loadPage.onReceivedSslError(view, handler, error);
-//    }
 
     /**
      * 更新页面访问历史记录

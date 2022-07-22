@@ -76,6 +76,41 @@ public class UtilApi implements IBridgeImpl {
         }
     }
 
+    public static void getIp(IQuickFragment webLoader, WebView wv, JSONObject param, Callback callback) {
+        SharedPreferences sp = webLoader.getPageControl().getContext().getSharedPreferences("ipAddress", Context.MODE_PRIVATE);
+        String remote = sp.getString("remoteIp","");
+        String local = sp.getString("localIp", "");
+        String socket = sp.getString("socketIp", "");
+
+        HashMap map = new HashMap();
+        map.put("remoteIp", remote);
+        map.put("localIp", local);
+        map.put("socketIp", socket);
+        callback.applySuccess(map);
+    }
+
+    public static void updateIp(IQuickFragment webLoader, WebView wv, JSONObject param, Callback callback) {
+       String remoteIp = param.optString("remoteIp", "");
+       String localIp = param.optString("localIp", "");
+       String socket = param.optString("socketIp", "");
+
+       SharedPreferences.Editor editor = webLoader.getPageControl().getContext().getSharedPreferences("ipAddress", Context.MODE_PRIVATE).edit();
+       if (!localIp.isEmpty()) {
+           editor.putString("localIp", localIp);
+       }
+
+       if (!remoteIp.isEmpty()) {
+           editor.putString("remoteIp", remoteIp);
+       }
+
+       if (!socket.isEmpty()) {
+           editor.putString("socketIp", socket);
+       }
+       editor.commit();
+       callback.applySuccess();
+    }
+
+
 
     /**
      * 选择文件
