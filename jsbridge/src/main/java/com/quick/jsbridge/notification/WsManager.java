@@ -117,7 +117,7 @@ public class WsManager {
             String socket = sharedPreferences.getString("socketIp", DEF_URL);
             url = TextUtils.isEmpty(socket) ? DEF_URL: socket;
             localUrl = sharedPreferences.getString("localIp", "");
-            String desUrl = url + "/?" + "userToken=" + token + "&" + "userName=" + name + "&EIO=3&transport=websocket";
+            String desUrl = url + "/socket.io/?" + "userToken=" + token + "&" + "userName=" + name + "&EIO=3&transport=websocket";
             Log.i("init", desUrl);
             ws = new WebSocketFactory().createSocket(desUrl, CONNECT_TIMEOUT)
                     .setFrameQueueSize(FRAME_QUEUE_SIZE)
@@ -126,6 +126,7 @@ public class WsManager {
                     .connectAsynchronously();// 异步连接
             setStatus(WsStatus.CONNECTING);
             Log.i(TAG, "第一次连接");
+            startHeartbeat();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -314,7 +315,7 @@ public class WsManager {
         }, 300);
     }
 
-    private static final long HEARTBEAT_INTERVAL = 30000;//心跳间隔
+    private static final long HEARTBEAT_INTERVAL = 10000;//心跳间隔
 
 
     private void startHeartbeat() {

@@ -87,13 +87,22 @@ public class MainActivity extends FrmBaseActivity {
         Log.i("loadUrl", localUrl);
 //        requestCodeQRCodePermissions();
 
-        Boolean isUrl = checkUrl(localUrl, 30 *1000);
+//        Toast.makeText(mContext, "加载中", Toast.LENGTH_SHORT).show();
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Boolean isUrl = checkUrl(localUrl, 30 *1000);
 
-        if (isUrl) {
-            nomalInit(localUrl);
-        } else {
-            nomalInit("file:///android_asset/web/index.html");
-        }
+                if (isUrl) {
+                    nomalInit(localUrl);
+                } else {
+                    nomalInit("file:///android_asset/web/index.html");
+                }
+            }
+        }, 3000);
+
+
 
     }
     private void nomalInit(String url) {
