@@ -332,21 +332,8 @@ public class WsManager {
     private Runnable heartbeatTask = new Runnable() {
         @Override
         public void run() {
-            sendReq(Action.HEARTBEAT, null, new ICallback() {
-                @Override
-                public void onSuccess(Object o) {
-                    heartbeatFailCount = 0;
-                }
-
-
-                @Override
-                public void onFail(String msg) {
-                    heartbeatFailCount++;
-                    if (heartbeatFailCount >= 3) {
-                        reconnect();
-                    }
-                }
-            });
+            ws.sendText("heart");
+            Log.i("heart", "startHeart");
 
             mHandler.postDelayed(this, HEARTBEAT_INTERVAL);
         }
