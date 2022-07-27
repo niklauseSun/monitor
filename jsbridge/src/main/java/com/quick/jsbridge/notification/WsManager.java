@@ -146,6 +146,7 @@ public class WsManager {
             Log.i(TAG, "连接成功");
             setStatus(WsStatus.CONNECT_SUCCESS);
             cancelReconnect();//连接成功的时候取消重连,初始化连接次数
+            startHeartbeat();
         }
 
         @Override
