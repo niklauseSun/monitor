@@ -146,7 +146,6 @@ public class WsManager {
             Log.i(TAG, "连接成功");
             setStatus(WsStatus.CONNECT_SUCCESS);
             cancelReconnect();//连接成功的时候取消重连,初始化连接次数
-            startHeartbeat();
         }
 
         @Override
@@ -400,6 +399,7 @@ public class WsManager {
                         .setMissingCloseFrameAllowed(false)//设置不允许服务端关闭连接却未发送关闭帧
                         .addListener(mListener = new WsListener())//添加回调监听
                         .connectAsynchronously();//异步连接
+                startHeartbeat();
             } catch (IOException e) {
                 e.printStackTrace();
             }
