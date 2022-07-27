@@ -454,8 +454,10 @@ public class WsManager {
                     if (eventId.equals(lastEventId)) return;
                     lastEventId = eventId;
                     String eventType = obj.getString("eventType");
-                    String showEventInfo = obj.getString("showEventInfo");
-
+                    String showEventInfo = "";
+                    if (obj.has("showEventInfo")) {
+                        showEventInfo = obj.getString("showEventInfo");
+                    }
                     createNotificationChannel(eventType, showEventInfo, localUrl + "/?event_id=" + eventId);
                 }
             } catch (JSONException e) {
